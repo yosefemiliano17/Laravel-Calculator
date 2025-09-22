@@ -19,10 +19,9 @@
                         name="value"
                         id="numero"
                         min="0"
-                        max="20"
                         value="{{ old('value') }}"
                         class="mt-2 block w-full border border-gray-300 rounded-lg shadow-sm p-3 text-lg focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                        placeholder="Ingresa un número (0-20)"
+                        placeholder="Ingresa un número"
                     />
                 </div>
 

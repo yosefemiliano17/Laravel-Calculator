@@ -1,16 +1,24 @@
 <?php
 
-namespace App\Services; 
+namespace App\Domain; 
 
 use App\Models\Operation; 
+use App\Services\Database;
 
-class CalculatorService {
+class CalculatorModel {
+
+    private Database $db; 
+
+    public function __construct() {
+        $this->db = new Database(); 
+    }
 
     public function calculateOperation($operationType, $value) {
         
-        $operation = Operation::where('operation', $operationType)
-                              ->where('value', $value)
-                              ->first();
+        $operation = $this->db->findOperation(new Operation([
+            'operation' => $operationType,
+            'value' => $value
+        ]));
 
         if($operation) {
             return $operation; 
@@ -19,18 +27,18 @@ class CalculatorService {
         $result = 0; 
         
         if($operationType === 'factorial') {
-            $result = $this->factorial($value); 
+            $result = $this->factorial($value);    
         }else if($operationType === 'fibonacci') {
             $result = $this->fibonacci($value); 
         }else {
             $result = $this->ackerman(1,$value); 
         }
-
-        $operation = Operation::create([
+        
+        $operation = $this->db->saveOperation(new Operation([
             'operation' => $operationType,
             'value' => $value,
             'result' => $result
-        ]); 
+        ]));
 
         return $operation; 
     }

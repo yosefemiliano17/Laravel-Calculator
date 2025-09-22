@@ -17,4 +17,21 @@ class Operation extends Model {
         'value',
         'result'
     ]; 
+
+    public function __construct(array $attributes = []) {
+        parent::__construct($attributes); 
+    }
+
+    public function getOperation() {
+        return $this->operation; 
+    }
+
+    public function getValue() {
+        return $this->value; 
+    }
+
+    public function getResult() {
+        return $this->result; 
+    }
+
 }

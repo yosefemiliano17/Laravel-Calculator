@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\CalculatorService; 
+use App\Domain\CalculatorModel; 
 
 class ControllerOperation extends Controller
 {
-    private $calculatorService; 
+    private $calculatorModel; 
 
-    public function __construct(CalculatorService $calculatorService) {
-        $this->calculatorService = $calculatorService; 
+    public function __construct(CalculatorModel $calculatorModel) {
+        $this->calculatorModel = $calculatorModel; 
     }
 
     public function index() {
@@ -18,13 +18,8 @@ class ControllerOperation extends Controller
     }
 
     public function calculate(Request $request) {
-
-        $request->validate([
-            'operation_type' => 'required|in:factorial,fibonacci,ackerman',
-            'value' => 'required|numeric|min:0|max:20'
-        ]);
         
-        $operation = $this->calculatorService->calculateOperation(
+        $operation = $this->calculatorModel->calculateOperation(
             $request->operation_type,
             (int)$request->value
         );
