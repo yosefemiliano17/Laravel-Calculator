@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory; 
+use App\Domain\OperationModel;
 
 class Operation extends Model {
 
@@ -18,8 +19,16 @@ class Operation extends Model {
         'result'
     ]; 
 
-    public function __construct(array $attributes = []) {
-        parent::__construct($attributes); 
+    public function __construct(OperationModel $op = null, array $attributes = []) {
+        if ($op !== null) {
+            $attributes = [
+                'operation' => $op->getOperation(),
+                'value'     => $op->getValue(),
+                'result'    => $op->getResult(),
+            ];
+        }
+
+        parent::__construct($attributes);
     }
 
     public function getOperation() {

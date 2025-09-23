@@ -2,24 +2,29 @@
 
 namespace App\Services;
 
+use App\Domain\OperationModel; 
 use App\Models\Operation;
 
 class Database {
 
     public function __construct() {}
 
-    public function findOperation(Operation $op) :? Operation {
-        return Operation::where('operation', $op->getOperation())
-                        ->where('value', $op->getValue())
-                        ->first();
+    public function findOperation(OperationModel $op) :? OperationModel {
+
+        $operationEloquent = Operation::where('operation', $op->getOperation())
+                                      ->where('value', $op->getValue())
+                                      ->first();
+
+        if(!$operationEloquent) {
+            return null; 
+        }
+
+        return OperationModel::ConvertEloquentOperation($operationEloquent);
     } 
 
-    public function saveOperation(Operation $op) : Operation {
-        return Operation::create([
-            'operation' => $op->getOperation(),
-            'value' => $op->getValue(),
-            'result' => $op->getResult()
-        ]); 
+    public function saveOperation(OperationModel $op) : void {
+        $operation = new Operation($op);
+        $operation->save();
     }
 
 }

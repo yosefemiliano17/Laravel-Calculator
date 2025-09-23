@@ -29,7 +29,7 @@
                     <span class="block text-lg font-semibold text-gray-700 mt-4">Resultado:</span>
                     <p id="resultado" class="mt-2 text-xl text-gray-900 font-bold">
                         @if($operation)
-                            {{ number_format($operation->result) }}
+                            {{ number_format($operation->getResult()) }}
                         @else
                             —
                         @endif
@@ -37,7 +37,7 @@
                     
                     @if($operation)
                         <p class="text-sm text-gray-600 mt-1">
-                            {{ ucfirst($operation->operation) }} de {{ $operation->value }}
+                            {{ ucfirst($operation->getOperation()) }} de {{ $operation->getValue() }}
                         </p>
                     @endif
                 </div>

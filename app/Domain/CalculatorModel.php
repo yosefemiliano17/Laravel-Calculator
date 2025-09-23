@@ -2,7 +2,7 @@
 
 namespace App\Domain; 
 
-use App\Models\Operation; 
+use App\Domain\OperationModel; 
 use App\Services\Database;
 
 class CalculatorModel {
@@ -15,14 +15,13 @@ class CalculatorModel {
 
     public function calculateOperation($operationType, $value) {
         
-        $operation = $this->db->findOperation(new Operation([
-            'operation' => $operationType,
-            'value' => $value
-        ]));
+        $operation = $this->db->findOperation(new OperationModel($operationType, $value));
 
         if($operation) {
             return $operation; 
         }
+
+        $operation = new OperationModel($operationType, $value);
 
         $result = 0; 
         
@@ -34,12 +33,8 @@ class CalculatorModel {
             $result = $this->ackerman(1,$value); 
         }
         
-        $operation = $this->db->saveOperation(new Operation([
-            'operation' => $operationType,
-            'value' => $value,
-            'result' => $result
-        ]));
-
+        $operation->setResult($result);
+        $this->db->saveOperation($operation);
         return $operation; 
     }
 

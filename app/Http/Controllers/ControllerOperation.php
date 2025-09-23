@@ -14,7 +14,7 @@ class ControllerOperation extends Controller
     }
 
     public function index() {
-        return view('welcome', ['operation' => null]); 
+        return view('calculatorview', ['operation' => null]); 
     }
 
     public function calculate(Request $request) {
@@ -24,6 +24,6 @@ class ControllerOperation extends Controller
             (int)$request->value
         );
 
-        return view('welcome', compact('operation'));
+        return view('calculatorview', compact('operation'));
     }
 }
